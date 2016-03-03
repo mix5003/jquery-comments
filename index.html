@@ -35,6 +35,18 @@
 					textareaRows: 3,
 					textareaRowsOnFocus: 3,
 					enableAttachments: true,
+					getUserId: function(success, error){
+						console.log("CALL LOGIN");
+						setTimeout(function() {
+							success(1);
+						}, 500);
+					},
+					logout: function(success, error){
+						console.log("CALL LOGOUT");
+						setTimeout(function() {
+							success();
+						}, 500);
+					},
 					getComments: function(success, error) {
 						setTimeout(function() {
 							success(commentsArray);
@@ -42,7 +54,7 @@
 					},
 					postComment: function(data, success, error) {
 						setTimeout(function() {
-							success(data);
+							error(data);
 						}, 500);
 					},
 					putComment: function(data, success, error) {

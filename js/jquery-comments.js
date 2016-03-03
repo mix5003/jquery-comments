@@ -126,6 +126,8 @@
                 userHasUpvoted: 'user_has_upvoted'
             },
 
+            getUserId: function(success, error) { success(null); },
+            logout: function(success, error){ success(); },
             getComments: function(success, error) {success([])},
             postComment: function(commentJSON, success, error) {success(commentJSON)},
             putComment: function(commentJSON, success, error) {success(commentJSON)},
@@ -159,6 +161,10 @@
             // Main comenting field
             'click .commenting-field.main .textarea': 'showMainCommentingField',
             'click .commenting-field.main .close' : 'hideMainCommentingField',
+
+            // Authenticate fields
+            'click .authenticate-warpper .authenticate .login': 'loginElementClick',
+            'click .authenticate-warpper .authenticate .logout': 'logoutElementClick',
 
             // All commenting fields
             'click .commenting-field .textarea' : 'increaseTextareaHeight',
@@ -1763,6 +1769,38 @@
                 var upvotes = self.createUpvoteElement(commentModel);
                 $(commentEl).find('.upvote').first().replaceWith(upvotes);
             });
+        },
+
+        // Authenticate
+        // ============
+        loginElementClick: function(){
+            var self = this;
+            var success = function(id){
+                self.options.currentUserId = id;
+
+                self.fetchDataAndRender();
+            };
+
+            var error = function(){
+
+            };
+
+            this.options.getUserId(success, error);
+        },
+
+        logoutElementClick: function(){
+            var self = this;
+            var success = function(){
+                self.options.currentUserId = null;
+
+                self.fetchDataAndRender();
+            };
+
+            var error = function(){
+
+            };
+
+            this.options.logout(success, error);
         },
 
 
