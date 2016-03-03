@@ -45,6 +45,7 @@
         options: {
 
             // User
+            currentUserId: null,
             profilePictureURL: '',
             currentUserIsAdmin: false,
 
@@ -75,11 +76,14 @@
             noCommentsText: 'No comments',
             noAttachmentsText: 'No attachments',
             attachmentDropText: 'Drop files here',
+            logoutText: 'Logout',
+            loginText: 'Login',
             textFormatter: function(text) {
                 return text;
             },
 
             // Functionalities
+            enableAuthenticate: true,
             enableReplying: true,
             enableEditing: true,
             enableUpvoting: true,
@@ -95,6 +99,8 @@
             // Colors
             highlightColor: '#2793e6',
             deleteButtonColor: '#C9302C',
+            loginButtonColor: '#2793e6',
+            logoutButtonColor: '#C9302C',
 
             roundProfilePictures: false,
             textareaRows: 2,
@@ -1208,6 +1214,32 @@
             return profilePicture;
         },
 
+        createAuthenticateElement: function(){
+            if(this.options.currentUserId){
+                var btn = $('<span/>',{
+                    'class': 'enabled logout'
+                })
+                .text(this.options.logoutText)
+                .css({
+                    'background-color': this.options.logoutButtonColor
+                });
+            }else{
+                var btn = $('<span/>',{
+                    'class': 'enabled login'
+                })
+                .text(this.options.loginText)
+                .css({
+                    'background-color': this.options.loginButtonColor
+                });;
+            }
+
+            var wrapper = $('<div/>', {
+                class: 'authenticate'
+            })
+            .append(btn);
+            return wrapper;
+        },
+
         createCommentingFieldElement: function(parentId, existingCommentId) {
             var self = this;
 
@@ -1223,6 +1255,16 @@
                 var profilePictureURL = this.options.profilePictureURL;
             }
             var profilePicture = this.createProfilePictureElement(profilePictureURL);
+
+            // Wrapper Authenticate
+            if(this.options.enableAuthenticate && !existingCommentId) {
+                var authenticateWrapper = $('<div/>', {
+                    class: 'authenticate-warpper'
+                });
+                authenticateWrapper.append(profilePicture);
+                authenticateWrapper.append(this.createAuthenticateElement());
+                profilePicture = authenticateWrapper;
+            }
 
             // New comment
             var textareaWrapper = $('<div/>', {

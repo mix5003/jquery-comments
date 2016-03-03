@@ -32,7 +32,8 @@
 				$('#comments-container').comments({
 					profilePictureURL: 'https://viima-app.s3.amazonaws.com/media/user_profiles/user-icon.png',
 					roundProfilePictures: true,
-					textareaRows: 1,
+					textareaRows: 3,
+					textareaRowsOnFocus: 3,
 					enableAttachments: true,
 					getComments: function(success, error) {
 						setTimeout(function() {
